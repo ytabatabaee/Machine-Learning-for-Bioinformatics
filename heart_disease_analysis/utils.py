@@ -64,9 +64,9 @@ def paired_t_test(y1, y2, alpha):
     print("p-value = ", p_value[0])
     print("aplha = ", alpha)
     if p_value > alpha:
-        print("Accept the null hypothesis that the predictions are mostly equal.")
+        print("Accept the null hypothesis that the means are equal.")
     else:
-        print("Reject the null hypothesis that the predictions are mostly equal. There is a meaningful difference between estimators.")
+        print("Reject the null hypothesis that the means are equal. There is a meaningful difference between means.")
     return
 
 
