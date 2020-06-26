@@ -1,22 +1,27 @@
+import torch
+import numpy as np
+from tqdm.notebook import tqdm
+from sklearn.metrics import accuracy_score
+
 class MLP:
     def __init__(self):
         input_size = 4
         hidden_size = 3
         output_size = 3
         self.hist = {'loss':[], 'acc':[]}
-        self.lr = 1e-2
+        self.lr = 0.01
         
         self.W1 = torch.randn(input_size, hidden_size)
-        self.b1 = torch.randn(hidden_size)
+        self.b1 = torch.ones(hidden_size)
         self.W2 = torch.randn(hidden_size, output_size)
-        self.b2 = torch.randn(output_size)
+        self.b2 = torch.ones(output_size)
 
     def softmax(self, x):
         e = torch.exp(x - torch.max(x))
         return e / e.sum()
     
     def sigmoid(self, x):
-        return 1 / (1 + torch.exp(x))
+        return 1 / (1 + torch.exp(-x))
 
     def cross_entropy(self, y, o):
       return -torch.sum(y * torch.log(o + 1e-10)).item()
@@ -27,11 +32,11 @@ class MLP:
         return o
 
     def backward(self, y, o):
-        dZ3 = o - y
+        dZ3 = (y - o) * o * (1 - o)
         dW2 = torch.matmul(self.h.T, dZ3)
         db2 = torch.mean(dZ3, axis=0)
         dh = torch.matmul(dZ3, self.W2.T)
-        dZ2 = dh * self.sigmoid(self.h) * (1 - self.sigmoid(self.h))
+        dZ2 = dh * self.h * (1 - self.h)
         dW1 = torch.matmul(self.x.T, dZ2)
         db1 = torch.mean(dZ2, axis=0)
         
@@ -45,11 +50,8 @@ class MLP:
         for epoch in tqdm(range(1, epochs+1)):
             o = self.forward(x)
             self.backward(y, o)
-            
             loss = self.cross_entropy(y, o)
             acc = accuracy_score(np.argmax(y.numpy(), axis=1), np.argmax(o.numpy(), axis=1))
-            print(np.argmax(y.numpy(), axis=1))
-            print(np.argmax(o.numpy(), axis=1))
             self.hist['loss'] += [loss]
             self.hist['acc'] += [acc]
             print(epoch, 'loss:', loss, 'acc:', acc)
