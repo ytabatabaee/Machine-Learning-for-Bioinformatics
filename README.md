@@ -1,6 +1,6 @@
 # Machine Learning for Bioinformatics
 
-These are my solutions to the assignments of the graduate course *Machine Learning for Bioinformatics [CE550]* offered by the CE Department at Sharif University in Spring quarter of 2020.
+These are my solutions to the assignments of the graduate course *Machine Learning for Bioinformatics* offered by the CE Department at Sharif University in Spring quarter of 2020.
 
 ## Assignments
 1. Heart Disease Data Analysis with KNN and Decision Tree from scratch [Codes & Data](https://github.com/ytabatabaee/Machine-Learning-for-Bioinformatics/tree/master/knn_decision_tree)
